@@ -49,8 +49,12 @@ test *args:
 vendor:
     #!/usr/bin/env bash
     mkdir -p .cargo
-    cargo vendor --locked --sync Cargo.toml | head -n -1 > .cargo/config.toml
-    echo 'directory = "vendor"' >> .cargo/config.toml
+    cargo vendor --locked --sync Cargo.toml | awk '/^\[/{p=1} p' > .cargo/config.toml
+    grep '^source = "git+" Cargo.lock | sed 's/source = "//;s/"$//' | sort -u | while read src; do \
+        echo "[source \"$src\"]"; \
+        echo 'replace-with = "vendored-sources"'; \
+        echo ""; \
+    done >> .cargo/config.toml
     echo >> .cargo/config.toml
     echo '[env]' >> .cargo/config.toml
     if [ -n "${SOURCE_DATE_EPOCH}" ]
