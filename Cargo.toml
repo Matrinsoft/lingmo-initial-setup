@@ -99,5 +99,5 @@ members = ["geonames"]
 # iced_futures = { git = "https://github.com/Matrinsoft/libcosmic//", branch = "theme-v2" }
 
 [patch.'https://github.com/Matrinsoft/lingmo-protocols']
-cosmic-protocols = { git = "https://github.com/Matrinsoft/lingmo-protocols//", rev = "a7d2d7a" }
-cosmic-client-toolkit = { git = "https://github.com/Matrinsoft/lingmo-protocols//", rev = "a7d2d7a" }
+cosmic-protocols = { git = "https://github.com/Matrinsoft/lingmo-protocols//", rev = "bc41a9a7" }
+cosmic-client-toolkit = { git = "https://github.com/Matrinsoft/lingmo-protocols//", rev = "bc41a9a7" }
