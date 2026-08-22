@@ -1,11 +1,11 @@
-use lingmo::cosmic_config::{Config, ConfigSet, CosmicConfigEntry};
-use lingmo::cosmic_theme::{self, ThemeBuilder, ThemeMode};
-use lingmo::iced::core::text::LineHeight;
-use lingmo::iced::widget::{rich_text, span};
-use lingmo::iced::{Alignment, Length, alignment, never};
-use lingmo::theme::{self, ThemeType};
-use lingmo::widget::{ListColumn, container};
-use lingmo::{Element, Task, widget};
+use cosmic::cosmic_config::{Config, ConfigSet, CosmicConfigEntry};
+use cosmic::cosmic_theme::{self, ThemeBuilder, ThemeMode};
+use cosmic::iced::core::text::LineHeight;
+use cosmic::iced::widget::{rich_text, span};
+use cosmic::iced::{Alignment, Length, alignment, never};
+use cosmic::theme::{self, ThemeType};
+use cosmic::widget::{ListColumn, container};
+use cosmic::{Element, Task, widget};
 use cosmic_settings_network_manager_subscription::dbus::settings;
 use heck::ToTitleCase;
 use std::collections::BTreeSet;
@@ -156,9 +156,9 @@ impl Page {
 
         Self {
             theme_mode_config,
-            dark_theme_config: lingmo::cosmic_theme::Theme::dark_config().ok(),
+            dark_theme_config: cosmic::cosmic_theme::Theme::dark_config().ok(),
             dark_theme_builder_config: ThemeBuilder::dark_config().ok(),
-            light_theme_config: lingmo::cosmic_theme::Theme::light_config().ok(),
+            light_theme_config: cosmic::cosmic_theme::Theme::light_config().ok(),
             light_theme_builder_config: ThemeBuilder::light_config().ok(),
             themes,
             selected: if ThemeMode::default().is_dark { 0 } else { 1 },
@@ -207,9 +207,9 @@ impl Page {
                     tracing::warn!(why = why.to_string(), "failed to set theme mode");
                 }
 
-                lingmo::Task::done(page::Message::SetTheme(lingmo::Theme {
+                cosmic::Task::done(page::Message::SetTheme(cosmic::Theme {
                     theme_type: ThemeType::Custom(Arc::new(theme)),
-                    ..lingmo::Theme::default()
+                    ..cosmic::Theme::default()
                 }))
             }
             Message::ToggleFrosted(enabled) => {
@@ -280,7 +280,7 @@ impl page::Page for Page {
             ListColumn::new()
                 .list_item_padding([space_xxs + 1, space_m]) // attempts to match size of tip
                 .add(
-                    lingmo::widget::settings::item::builder(fl!(
+                    cosmic::widget::settings::item::builder(fl!(
                         "appearance-page",
                         "frosted-glass"
                     ))
@@ -298,15 +298,15 @@ impl page::Page for Page {
                         .color(t.cosmic().accent_text_color())
                         .size(14)
                         .line_height(LineHeight::Absolute(20.0.into()))
-                        .font(lingmo::font::default()),
+                        .font(cosmic::font::default()),
                     span(" ")
                         .size(14)
                         .line_height(LineHeight::Absolute(20.0.into()))
-                        .font(lingmo::font::default()),
+                        .font(cosmic::font::default()),
                     span(fl!("appearance-page", "effects-tip"))
                         .size(14)
                         .line_height(LineHeight::Absolute(20.0.into()))
-                        .font(lingmo::font::default())
+                        .font(cosmic::font::default())
                 ]
                 .on_link_click(never),
             ),

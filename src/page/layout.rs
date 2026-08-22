@@ -1,7 +1,7 @@
 use crate::fl;
 
-use lingmo::iced::{Alignment, Length};
-use lingmo::{cosmic_theme, widget};
+use cosmic::iced::{Alignment, Length};
+use cosmic::{cosmic_theme, widget};
 use kdl::{KdlDocument, KdlValue};
 use std::any::Any;
 use std::collections::{BTreeMap, VecDeque};
@@ -34,7 +34,7 @@ impl From<Message> for super::Message {
 }
 
 impl Page {
-    pub fn update(&mut self, message: Message) -> lingmo::Task<super::Message> {
+    pub fn update(&mut self, message: Message) -> cosmic::Task<super::Message> {
         match message {
             Message::Selected(id) => {
                 if let Some(layout) = self.layouts.get(id) {
@@ -44,7 +44,7 @@ impl Page {
             }
         }
 
-        lingmo::Task::none()
+        cosmic::Task::none()
     }
 }
 
@@ -61,13 +61,13 @@ impl super::Page for Page {
         true
     }
 
-    fn init(&mut self) -> lingmo::Task<super::Message> {
+    fn init(&mut self) -> cosmic::Task<super::Message> {
         #[cfg(feature = "nixos")]
         let layouts_dir_path = "/run/current-system/sw/share/cosmic-layouts/";
         #[cfg(not(feature = "nixos"))]
         let layouts_dir_path = "/usr/share/cosmic-layouts/";
         let Ok(layouts_dir) = std::fs::read_dir(layouts_dir_path) else {
-            return lingmo::Task::none();
+            return cosmic::Task::none();
         };
 
         self.layouts.clear();
@@ -135,24 +135,24 @@ impl super::Page for Page {
 
         self.layouts.sort_by_key(|a| a.id);
 
-        lingmo::Task::none()
+        cosmic::Task::none()
     }
 
-    fn open(&mut self) -> lingmo::Task<super::Message> {
+    fn open(&mut self) -> cosmic::Task<super::Message> {
         if let Ok(lang) = std::env::var("LANG") {
             self.locale = lang.split('.').next().unwrap_or("en").to_owned();
         }
 
-        lingmo::Task::none()
+        cosmic::Task::none()
     }
 
-    fn view(&self) -> lingmo::Element<'_, super::Message> {
+    fn view(&self) -> cosmic::Element<'_, super::Message> {
         let cosmic_theme::Spacing {
             space_s, space_m, ..
-        } = lingmo::theme::spacing();
+        } = cosmic::theme::spacing();
 
         let description = widget::text::body(fl!("layout-page", "description"))
-            .align_x(lingmo::iced::Alignment::Center)
+            .align_x(cosmic::iced::Alignment::Center)
             .width(Length::Fill);
 
         let mut grid = widget::grid().column_spacing(space_m).row_spacing(space_m);
@@ -186,7 +186,7 @@ fn layout_button<'a>(
     id: usize,
     current: Option<usize>,
     spacing: u16,
-) -> lingmo::Element<'a, super::Message> {
+) -> cosmic::Element<'a, super::Message> {
     let name = layout
         .names
         .get(locale)
@@ -203,7 +203,7 @@ fn layout_button<'a>(
 
     let button = widget::button::custom_image_button(thumbnail, None)
         .description(name.as_str())
-        .class(lingmo::theme::Button::Image)
+        .class(cosmic::theme::Button::Image)
         .selected(current == Some(id))
         .on_press(Message::Selected(id).into());
 

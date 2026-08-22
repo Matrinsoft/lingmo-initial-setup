@@ -1,5 +1,5 @@
-use lingmo::iced::{Alignment, Length};
-use lingmo::{Element, cosmic_theme, theme, widget};
+use cosmic::iced::{Alignment, Length};
+use cosmic::{Element, cosmic_theme, theme, widget};
 
 use crate::{fl, page};
 
@@ -35,7 +35,7 @@ impl page::Page for Page {
 
         widget::column::with_children(vec![
             widget::text::body(fl!("launcher-page", "description"))
-                .align_x(lingmo::iced::Alignment::Center)
+                .align_x(cosmic::iced::Alignment::Center)
                 .width(Length::Fill)
                 .into(),
             widget::svg(self.handle.clone()).width(Length::Fill).into(),

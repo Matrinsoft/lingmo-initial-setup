@@ -1,6 +1,6 @@
-use lingmo::cosmic_config::{self, ConfigSet};
-use lingmo::iced::{Alignment, Length};
-use lingmo::{Element, Task, cosmic_theme, theme, widget};
+use cosmic::cosmic_config::{self, ConfigSet};
+use cosmic::iced::{Alignment, Length};
+use cosmic::{Element, Task, cosmic_theme, theme, widget};
 use eyre::Context;
 use slotmap::{DefaultKey, Key, SlotMap};
 use std::collections::{BTreeMap, BTreeSet};
@@ -160,7 +160,7 @@ impl super::Page for Page {
         fl!("select-language-page")
     }
 
-    fn init(&mut self) -> lingmo::Task<page::Message> {
+    fn init(&mut self) -> cosmic::Task<page::Message> {
         let refresh = async || -> eyre::Result<PageRefresh> {
             let conn = zbus::Connection::system()
                 .await
@@ -188,7 +188,7 @@ impl super::Page for Page {
                 })
                 .collect();
 
-            let config = lingmo::cosmic_config::Config::new("com.system76.CosmicSettings", 1).ok();
+            let config = cosmic::cosmic_config::Config::new("com.system76.CosmicSettings", 1).ok();
 
             let language = system_locales
                 .get("LC_ALL")
@@ -254,10 +254,10 @@ impl super::Page for Page {
             })
         };
 
-        lingmo::task::future(async move { Message::Refresh(Arc::new(refresh().await)) })
+        cosmic::task::future(async move { Message::Refresh(Arc::new(refresh().await)) })
     }
 
-    fn open(&mut self) -> lingmo::Task<page::Message> {
+    fn open(&mut self) -> cosmic::Task<page::Message> {
         widget::text_input::focus(self.search_id.clone())
     }
 

@@ -1,8 +1,8 @@
 use crate::{fl, page};
-use lingmo::iced::core::text::Wrapping;
-use lingmo::iced::{Alignment, Length, alignment};
-use lingmo::widget::{segmented_button, text};
-use lingmo::{Element, Task, surface, widget};
+use cosmic::iced::core::text::Wrapping;
+use cosmic::iced::{Alignment, Length, alignment};
+use cosmic::widget::{segmented_button, text};
+use cosmic::{Element, Task, surface, widget};
 use cosmic_randr_shell::OutputKey;
 use cosmic_settings_a11y_manager_subscription::{
     self as cosmic_a11y_manager, AccessibilityEvent, AccessibilityRequest,
@@ -53,7 +53,7 @@ impl page::Page for Page {
         self
     }
 
-    fn init(&mut self) -> lingmo::Task<page::Message> {
+    fn init(&mut self) -> cosmic::Task<page::Message> {
         let mut tasks = Vec::new();
 
         // Intialize the a11y wayland thread.
@@ -62,7 +62,7 @@ impl page::Page for Page {
                 Ok((tx, mut rx)) => {
                     self.a11y_wayland_thread = Some(tx);
 
-                    let task = lingmo::Task::stream(lingmo::iced::stream::channel(
+                    let task = cosmic::Task::stream(cosmic::iced::stream::channel(
                         1,
                         |mut sender: Sender<page::Message>| async move {
                             while let Some(event) = rx.recv().await {
@@ -85,16 +85,16 @@ impl page::Page for Page {
             }
         }
 
-        tasks.push(lingmo::task::future(async {
+        tasks.push(cosmic::task::future(async {
             let list = cosmic_randr_shell::list().await;
             page::Message::from(Message::UpdateDisplayList(Arc::new(list)))
         }));
 
-        lingmo::task::batch(tasks)
+        cosmic::task::batch(tasks)
     }
 
     fn view(&self) -> Element<'_, page::Message> {
-        let spacing = lingmo::theme::spacing();
+        let spacing = cosmic::theme::spacing();
 
         let screen_reader = {
             let text = widget::column::with_capacity(2)
@@ -109,8 +109,8 @@ impl page::Page for Page {
                 widget::icon::from_name("audio-speakers-symbolic")
                     .icon()
                     .size(24)
-                    .class(lingmo::style::Svg::custom(|theme| {
-                        lingmo::iced::widget::svg::Style {
+                    .class(cosmic::style::Svg::custom(|theme| {
+                        cosmic::iced::widget::svg::Style {
                             color: Some(theme.cosmic().success_text_color().into()),
                         }
                     }))
@@ -141,7 +141,7 @@ impl page::Page for Page {
                 DPI_SCALE_LABELS,
                 Some(self.scale),
                 |option| Message::Scale(option).into(),
-                lingmo::iced::window::Id::RESERVED,
+                cosmic::iced::window::Id::RESERVED,
                 |e| page::Message::A11y(Message::Surface(e)),
                 |a| crate::Message::PageMessage(a),
             ),
@@ -204,7 +204,7 @@ impl Page {
         }
     }
 
-    pub fn update(&mut self, message: Message) -> lingmo::Task<page::Message> {
+    pub fn update(&mut self, message: Message) -> cosmic::Task<page::Message> {
         match message {
             Message::A11yEvent(AccessibilityEvent::Bound(_version)) => {
                 // self.wayland_available = Some(version);
@@ -271,7 +271,7 @@ impl Page {
                 a11y_bus::Response::Init(enabled, tx) => {
                     self.reader_enabled = enabled;
                     self.screen_reader_dbus_sender = Some(tx);
-                    return lingmo::Task::done(Message::ScreenReaderEnabled(true).into());
+                    return cosmic::Task::done(Message::ScreenReaderEnabled(true).into());
                 }
             },
             Message::Display(entity) => self.set_active_display(entity),
@@ -321,7 +321,7 @@ impl Page {
                 None => (),
             },
             Message::Surface(a) => {
-                return lingmo::task::message(page::Message::Surface(a));
+                return cosmic::task::message(page::Message::Surface(a));
             }
         }
 
@@ -386,7 +386,7 @@ impl Page {
                     })
                     .map_into::<page::Message>();
 
-                Some(lingmo::task::future(command_fut))
+                Some(cosmic::task::future(command_fut))
             })
             .unwrap_or_else(Task::none)
     }
