@@ -1,5 +1,5 @@
-use cosmic::iced::Subscription;
-use cosmic::{Element, surface, widget};
+use lingmo::iced::Subscription;
+use lingmo::{Element, surface, widget};
 use indexmap::IndexMap;
 use std::any::{Any, TypeId};
 
@@ -98,7 +98,7 @@ pub enum Message {
     Language(language::Message),
     Layout(layout::Message),
     Location(location::Message),
-    SetTheme(cosmic::Theme),
+    SetTheme(lingmo::Theme),
     User(user::Message),
     A11y(a11y::Message),
     WiFi(wifi::Message),
@@ -117,16 +117,16 @@ pub trait Page {
 
     fn title(&self) -> String;
 
-    fn init(&mut self) -> cosmic::Task<Message> {
-        cosmic::Task::none()
+    fn init(&mut self) -> lingmo::Task<Message> {
+        lingmo::Task::none()
     }
 
-    fn apply_settings(&mut self) -> cosmic::Task<Message> {
-        cosmic::Task::none()
+    fn apply_settings(&mut self) -> lingmo::Task<Message> {
+        lingmo::Task::none()
     }
 
-    fn open(&mut self) -> cosmic::Task<Message> {
-        cosmic::Task::none()
+    fn open(&mut self) -> lingmo::Task<Message> {
+        lingmo::Task::none()
     }
 
     fn width(&self) -> f32 {

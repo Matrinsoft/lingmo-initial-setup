@@ -1,8 +1,8 @@
 use std::cmp;
 
-use cosmic::cosmic_config::{self, ConfigGet, ConfigSet};
-use cosmic::iced::{Alignment, Length};
-use cosmic::{Element, Task, cosmic_theme, theme, widget};
+use lingmo::cosmic_config::{self, ConfigGet, ConfigSet};
+use lingmo::iced::{Alignment, Length};
+use lingmo::{Element, Task, cosmic_theme, theme, widget};
 use cosmic_comp_config::{KeyboardConfig, XkbConfig};
 use slotmap::{DefaultKey, SlotMap};
 
@@ -263,7 +263,7 @@ impl page::Page for Page {
         Task::none()
     }
 
-    fn open(&mut self) -> cosmic::Task<page::Message> {
+    fn open(&mut self) -> lingmo::Task<page::Message> {
         widget::text_input::focus(self.search_id.clone())
     }
 

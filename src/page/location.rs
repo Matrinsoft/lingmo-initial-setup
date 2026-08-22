@@ -1,8 +1,8 @@
 use crate::{fl, page};
-use cosmic::cosmic_config::cosmic_config_derive::CosmicConfigEntry;
-use cosmic::cosmic_config::{self, Config, ConfigSet, CosmicConfigEntry};
-use cosmic::iced::{Alignment, Length};
-use cosmic::{Element, Task, cosmic_theme, theme, widget};
+use lingmo::cosmic_config::cosmic_config_derive::CosmicConfigEntry;
+use lingmo::cosmic_config::{self, Config, ConfigSet, CosmicConfigEntry};
+use lingmo::iced::{Alignment, Length};
+use lingmo::{Element, Task, cosmic_theme, theme, widget};
 use serde::{Deserialize, Serialize};
 
 static CITIES: &[u8] = include_bytes!("../../res/cities.bitcode-v0-6");
@@ -126,7 +126,7 @@ impl page::Page for Page {
         self
     }
 
-    fn open(&mut self) -> cosmic::Task<page::Message> {
+    fn open(&mut self) -> lingmo::Task<page::Message> {
         widget::text_input::focus(self.search_id.clone())
     }
 

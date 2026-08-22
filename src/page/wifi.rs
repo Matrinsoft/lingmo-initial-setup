@@ -1,18 +1,18 @@
 // Copyright 2025 System76 <info@system76.com>
 // SPDX-License-Identifier: GPL-3.0-only
 
-// TODO: This duplicates some of the libcosmic logic implemented in cosmic-settings' wifi page.
+// TODO: This duplicates some of the liblingmo logic implemented in cosmic-settings' wifi page.
 
 use crate::fl;
 use std::collections::{BTreeMap, BTreeSet};
 use std::process::Stdio;
 use std::sync::{Arc, LazyLock};
 
-use cosmic::iced::core::text::Wrapping;
-use cosmic::iced::widget::operation::focus_next;
-use cosmic::iced::{Alignment, Length, alignment};
-use cosmic::widget::{self, column, icon};
-use cosmic::{Apply, Element, Task};
+use lingmo::iced::core::text::Wrapping;
+use lingmo::iced::widget::operation::focus_next;
+use lingmo::iced::{Alignment, Length, alignment};
+use lingmo::widget::{self, column, icon};
+use lingmo::{Apply, Element, Task};
 use cosmic_settings_network_manager_subscription::available_wifi::{AccessPoint, NetworkType};
 use cosmic_settings_network_manager_subscription::current_networks::ActiveConnectionInfo;
 use cosmic_settings_network_manager_subscription::{
@@ -52,7 +52,7 @@ impl super::Page for Page {
         self
     }
 
-    fn init(&mut self) -> cosmic::Task<super::Message> {
+    fn init(&mut self) -> lingmo::Task<super::Message> {
         connection_settings(self)
     }
 
@@ -62,10 +62,10 @@ impl super::Page for Page {
 
     fn view(&self) -> Element<'_, super::Message> {
         let Some(NmState { ref state, .. }) = self.nm_state else {
-            return cosmic::widget::space().into();
+            return lingmo::widget::space().into();
         };
 
-        let theme = cosmic::theme::active();
+        let theme = lingmo::theme::active();
         let spacing = &theme.cosmic().spacing;
 
         let wifi_enable = widget::settings::item::builder(fl!("wifi"))
@@ -189,7 +189,7 @@ impl super::Page for Page {
                                     }))
                                     .width(Length::Fixed(170.0))
                                     .apply(widget::container)
-                                    .class(cosmic::style::Container::Dialog(true))
+                                    .class(lingmo::style::Container::Dialog(true))
                             })
                             .apply(|e| Some(Element::from(e)))
                     } else if is_known {
@@ -433,7 +433,7 @@ impl Page {
                                 password_hidden: true,
                                 tx: Arc::new(Mutex::new(None)),
                             });
-                            return cosmic::task::message(Message::FocusSecureInput);
+                            return lingmo::task::message(Message::FocusSecureInput);
                         }
                     }
 
@@ -463,7 +463,7 @@ impl Page {
                 | network_manager::Event::WirelessAccessPoints,
             ) => {
                 if let Some(NmState { ref conn, .. }) = self.nm_state {
-                    return cosmic::Task::batch(vec![
+                    return lingmo::Task::batch(vec![
                         update_state(conn.clone()),
                         update_devices(conn.clone()),
                     ]);
@@ -545,7 +545,7 @@ impl Page {
                         password_hidden: true,
                         tx: Arc::default(),
                     });
-                    return cosmic::task::message(Message::FocusSecureInput);
+                    return lingmo::task::message(Message::FocusSecureInput);
                 }
             }
 
@@ -676,7 +676,7 @@ impl Page {
                         identity: matches!(ap.network_type, NetworkType::EAP).then(String::new),
                         tx,
                     });
-                    return cosmic::task::message(Message::FocusSecureInput);
+                    return lingmo::task::message(Message::FocusSecureInput);
                 }
                 nm_secret_agent::Event::CancelGetSecrets { uuid: _, name: _ } => {
                     self.dialog = self
@@ -700,7 +700,7 @@ impl Page {
                             ssid,
                             identity,
                         });
-                        return cosmic::task::message(Message::FocusSecureInput);
+                        return lingmo::task::message(Message::FocusSecureInput);
                     }
                 }
             },
@@ -744,8 +744,8 @@ impl Page {
             Message::FocusSecureInput => {
                 // retry until the widget is in the tree and focused or the dialog is removed.
                 if matches!(self.dialog, Some(WiFiDialog::Password { .. })) {
-                    return cosmic::iced::runtime::task::widget(
-                        cosmic::iced::core::widget::operation::focusable::find_focused(),
+                    return lingmo::iced::runtime::task::widget(
+                        lingmo::iced::core::widget::operation::focusable::find_focused(),
                     )
                     .collect()
                     .then(|id| {
@@ -755,8 +755,8 @@ impl Page {
                         {
                             Task::none()
                         } else {
-                            cosmic::widget::text_input::focus(SECURE_INPUT_WIFI.clone())
-                                .chain(cosmic::task::message(Message::FocusSecureInput))
+                            lingmo::widget::text_input::focus(SECURE_INPUT_WIFI.clone())
+                                .chain(lingmo::task::message(Message::FocusSecureInput))
                         }
                     });
                 }
@@ -764,7 +764,7 @@ impl Page {
 
             Message::NetworkManagerConnect(_conn) => {
                 return connection_settings(self);
-                // return cosmic::task::batch(vec![
+                // return lingmo::task::batch(vec![
                 //     self.connect(conn.clone()),
                 //     connection_settings(conn),
                 // ]);
@@ -822,14 +822,14 @@ fn is_connected(state: &NetworkManagerState, network: &AccessPoint) -> bool {
 }
 
 fn popup_button(message: Message, text: String) -> Element<'static, Message> {
-    let theme = cosmic::theme::active();
+    let theme = lingmo::theme::active();
     let theme = theme.cosmic();
     widget::text::body(text)
         .align_y(Alignment::Center)
         .apply(widget::button::custom)
         .padding([theme.space_xxxs(), theme.space_xs()])
         .width(Length::Fill)
-        .class(cosmic::theme::Button::MenuItem)
+        .class(lingmo::theme::Button::MenuItem)
         .on_press(message)
         .into()
 }
@@ -881,7 +881,7 @@ fn connection_settings(page: &mut Page) -> Task<super::Message> {
     let (tx, rx) = tokio::sync::mpsc::channel(4);
     page.secret_tx = Some(tx);
 
-    let conn_settings = cosmic::task::future(async move {
+    let conn_settings = lingmo::task::future(async move {
         settings
             .await
             .context("failed to get connection settings")
@@ -892,7 +892,7 @@ fn connection_settings(page: &mut Page) -> Task<super::Message> {
             .apply(super::Message::WiFi)
     });
 
-    let secret_agent = cosmic::Task::stream(
+    let secret_agent = lingmo::Task::stream(
         cosmic_settings_network_manager_subscription::nm_secret_agent::secret_agent_stream(
             "com.system76.CosmicSettings.WiFi.NetworkManager.SecretAgent",
             rx,
@@ -900,11 +900,11 @@ fn connection_settings(page: &mut Page) -> Task<super::Message> {
     )
     .map(|m| super::Message::WiFi(Message::SecretAgent(m)));
 
-    cosmic::task::batch([conn_settings, secret_agent])
+    lingmo::task::batch([conn_settings, secret_agent])
 }
 
 pub fn update_state(conn: zbus::Connection) -> Task<super::Message> {
-    cosmic::task::future(async move {
+    lingmo::task::future(async move {
         match NetworkManagerState::new(&conn).await {
             Ok(state) => Message::UpdateState(state),
             Err(why) => Message::Error(why.to_string()),
@@ -913,7 +913,7 @@ pub fn update_state(conn: zbus::Connection) -> Task<super::Message> {
 }
 
 pub fn update_devices(conn: zbus::Connection) -> Task<super::Message> {
-    cosmic::task::future(async move {
+    lingmo::task::future(async move {
         let filter =
             |device_type| matches!(device_type, network_manager::devices::DeviceType::Wifi);
         match network_manager::devices::list(&conn, filter).await {

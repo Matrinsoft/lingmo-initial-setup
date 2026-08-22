@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 use crate::fl;
-use cosmic::dialog::file_chooser;
-use cosmic::iced::Length;
-use cosmic::widget::{self, icon};
-use cosmic::{Apply, Element};
+use lingmo::dialog::file_chooser;
+use lingmo::iced::Length;
+use lingmo::widget::{self, icon};
+use lingmo::{Apply, Element};
 use pwhash::{bcrypt, md5_crypt, sha256_crypt, sha512_crypt};
 use regex::Regex;
 use std::collections::HashMap;
@@ -162,12 +162,12 @@ impl super::Page for Page {
             .push(username_input)
             .push(password_input)
             .push(password_confirm_input)
-            .push(widget::space::vertical().height(cosmic::theme::spacing().space_s))
-            .spacing(cosmic::theme::spacing().space_s)
+            .push(widget::space::vertical().height(lingmo::theme::spacing().space_s))
+            .spacing(lingmo::theme::spacing().space_s)
             .into()
     }
 
-    fn apply_settings(&mut self) -> cosmic::Task<super::Message> {
+    fn apply_settings(&mut self) -> lingmo::Task<super::Message> {
         let username = std::mem::take(&mut self.username);
         let full_name = std::mem::take(&mut self.username);
         let password = std::mem::take(&mut self.password);
@@ -178,7 +178,7 @@ impl super::Page for Page {
             .to_owned();
         let is_admin = true;
 
-        cosmic::Task::future(async move {
+        lingmo::Task::future(async move {
             let Ok(conn) = zbus::Connection::system().await else {
                 return;
             };
@@ -222,10 +222,10 @@ impl super::Page for Page {
 }
 
 impl Page {
-    pub fn update(&mut self, message: Message) -> cosmic::Task<super::Message> {
+    pub fn update(&mut self, message: Message) -> lingmo::Task<super::Message> {
         match message {
             Message::SelectProfileImage => {
-                return cosmic::task::future(async move {
+                return lingmo::task::future(async move {
                     let dialog_result = file_chooser::open::Dialog::new()
                         .title(fl!("create-account-page", "profile-add"))
                         .accept_label(fl!("create-account-page", "dialog-add"))
@@ -243,13 +243,13 @@ impl Page {
                     Ok(url) => url,
                     Err(why) => {
                         tracing::error!(?why, "failed to get image file");
-                        return cosmic::Task::none();
+                        return lingmo::Task::none();
                     }
                 };
 
                 let Ok(path) = url.to_file_path() else {
                     tracing::error!("selected image is not a file path");
-                    return cosmic::Task::none();
+                    return lingmo::Task::none();
                 };
 
                 self.profile_icon_path = path.clone();
@@ -295,7 +295,7 @@ impl Page {
             }
         };
 
-        cosmic::Task::none()
+        lingmo::Task::none()
     }
 }
 

@@ -1,6 +1,6 @@
 use crate::fl;
-use cosmic::iced::{Alignment, Length};
-use cosmic::{cosmic_theme, widget};
+use lingmo::iced::{Alignment, Length};
+use lingmo::{cosmic_theme, widget};
 use std::any::Any;
 
 static SCREENSHOT: &[u8] = include_bytes!("../../res/workspaces.svg");
@@ -30,11 +30,11 @@ impl super::Page for Page {
         true
     }
 
-    fn view(&self) -> cosmic::Element<'_, super::Message> {
-        let cosmic_theme::Spacing { space_s, .. } = cosmic::theme::spacing();
+    fn view(&self) -> lingmo::Element<'_, super::Message> {
+        let cosmic_theme::Spacing { space_s, .. } = lingmo::theme::spacing();
 
         let description = widget::text::body(fl!("workflow-page", "description"))
-            .align_x(cosmic::iced::Alignment::Center)
+            .align_x(lingmo::iced::Alignment::Center)
             .width(Length::Fill);
 
         widget::column::with_capacity(2)

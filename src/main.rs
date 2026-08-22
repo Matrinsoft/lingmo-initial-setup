@@ -4,9 +4,9 @@
 use std::any::TypeId;
 use std::path::Path;
 
-use cosmic::app::{Core, Settings, Task};
-use cosmic::iced::{Alignment, Length, Limits, Subscription};
-use cosmic::{Application, Apply, Element, cosmic_theme, executor, surface, theme, widget};
+use lingmo::app::{Core, Settings, Task};
+use lingmo::iced::{Alignment, Length, Limits, Subscription};
+use lingmo::{Application, Apply, Element, cosmic_theme, executor, surface, theme, widget};
 use futures::channel::mpsc::Sender;
 use futures::{SinkExt, Stream, StreamExt};
 use indexmap::IndexMap;
@@ -75,7 +75,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut settings = Settings::default();
     settings = settings.size_limits(Limits::NONE.max_width(900.0).max_height(650.0));
 
-    cosmic::app::run::<App>(settings, mode)?;
+    lingmo::app::run::<App>(settings, mode)?;
 
     Ok(())
 }
@@ -144,7 +144,7 @@ impl Application for App {
             .map(|page| {
                 page.init()
                     .map(Message::PageMessage)
-                    .map(cosmic::Action::App)
+                    .map(lingmo::Action::App)
             })
             .collect::<Vec<_>>()
             .apply(Task::batch)
@@ -158,13 +158,13 @@ impl Application for App {
         match message {
             Message::None => {}
             Message::Surface(a) => {
-                return cosmic::task::message(cosmic::Action::Cosmic(
-                    cosmic::app::Action::Surface(a),
+                return lingmo::task::message(lingmo::Action::Cosmic(
+                    lingmo::app::Action::Surface(a),
                 ));
             }
             Message::PageMessage(page_message) => match page_message {
                 page::Message::SetTheme(theme) => {
-                    return cosmic::command::set_theme(theme);
+                    return lingmo::command::set_theme(theme);
                 }
 
                 page::Message::Appearance(message) => {
@@ -176,7 +176,7 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
 
@@ -188,7 +188,7 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
 
@@ -200,7 +200,7 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
 
@@ -212,7 +212,7 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
 
@@ -224,7 +224,7 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
 
@@ -236,7 +236,7 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
 
@@ -248,7 +248,7 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
 
@@ -260,12 +260,12 @@ impl Application for App {
                             .unwrap()
                             .update(message)
                             .map(Message::PageMessage)
-                            .map(cosmic::Action::App);
+                            .map(lingmo::Action::App);
                     }
                 }
                 page::Message::Surface(action) => {
-                    return cosmic::task::message(cosmic::Action::Cosmic(
-                        cosmic::app::Action::Surface(action),
+                    return lingmo::task::message(lingmo::Action::Cosmic(
+                        lingmo::app::Action::Surface(action),
                     ));
                 }
             },
@@ -276,12 +276,12 @@ impl Application for App {
                     return page
                         .open()
                         .map(Message::PageMessage)
-                        .map(cosmic::Action::App);
+                        .map(lingmo::Action::App);
                 }
             }
 
             Message::Finish => {
-                let mark_initial_setup_finish = cosmic::Task::future(async {
+                let mark_initial_setup_finish = lingmo::Task::future(async {
                     #[allow(deprecated)]
                     let home = std::env::home_dir().unwrap();
                     _ = std::fs::File::create(home.join(COSMIC_SETUP_DONE_PATH));
@@ -295,7 +295,7 @@ impl Application for App {
                         page.completed().then(|| {
                             page.apply_settings()
                                 .map(Message::PageMessage)
-                                .map(cosmic::Action::App)
+                                .map(lingmo::Action::App)
                         })
                     })
                     .chain(std::iter::once(mark_initial_setup_finish))
@@ -305,7 +305,7 @@ impl Application for App {
                 if self.oem_mode {
                     // Automatically log out from the OEM mode after tasks are finished.
                     tasks = tasks.chain(
-                        cosmic::Task::future(async {
+                        lingmo::Task::future(async {
                             _ = std::process::Command::new("loginctl")
                                 .args(["terminate-user", "cosmic-initial-setup"])
                                 .status();
@@ -314,11 +314,11 @@ impl Application for App {
                     );
                 }
 
-                return tasks.chain(cosmic::Task::done(Message::Exit.into()));
+                return tasks.chain(lingmo::Task::done(Message::Exit.into()));
             }
 
             Message::Exit => {
-                return cosmic::iced::exit();
+                return lingmo::iced::exit();
             }
         }
         Task::none()
@@ -424,7 +424,7 @@ impl Application for App {
 
 fn network_manager_stream() -> impl Stream<Item = Message> {
     use cosmic_settings_network_manager_subscription as network_manager;
-    cosmic::iced::stream::channel(1, |mut output: Sender<Message>| async move {
+    lingmo::iced::stream::channel(1, |mut output: Sender<Message>| async move {
         let conn = zbus::Connection::system().await.unwrap();
 
         let (tx, mut rx) = futures::channel::mpsc::channel(1);
