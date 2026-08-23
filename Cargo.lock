@@ -1076,7 +1076,7 @@ dependencies = [
 [[package]]
 name = "cosmic-client-toolkit"
 version = "0.2.0"
-source = "git+https://github.com/Matrinsoft/lingmo-protocols//?rev=26b46f124d5e69403a7c18d9bcf0a8a2994f9c99#26b46f124d5e69403a7c18d9bcf0a8a2994f9c996188425f699eaddf7a025617ce56068ae"
+source = "git+https://github.com/Matrinsoft/lingmo-protocols//?rev=693c176a1e9691a2f06609969e8713f270a46035#693c176a1e9691a2f06609969e8713f270a460356188425f699eaddf7a025617ce56068ae"
 dependencies = [
  "bitflags 2.13.0",
  "cosmic-protocols",
@@ -1208,7 +1208,7 @@ dependencies = [
 [[package]]
 name = "cosmic-protocols"
 version = "0.2.0"
-source = "git+https://github.com/Matrinsoft/lingmo-protocols//?rev=26b46f124d5e69403a7c18d9bcf0a8a2994f9c99#26b46f124d5e69403a7c18d9bcf0a8a2994f9c996188425f699eaddf7a025617ce56068ae"
+source = "git+https://github.com/Matrinsoft/lingmo-protocols//?rev=693c176a1e9691a2f06609969e8713f270a46035#693c176a1e9691a2f06609969e8713f270a460356188425f699eaddf7a025617ce56068ae"
 dependencies = [
  "bitflags 2.13.0",
  "wayland-backend",
