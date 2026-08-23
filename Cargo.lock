@@ -1232,7 +1232,7 @@ dependencies = [
 [[package]]
 name = "cosmic-settings-a11y-manager-subscription"
 version = "1.0.7"
-source = "git+https://github.com/Matrinsoft/lingmo-settings#3aa3e6694441b028de2b1065fd3b8c6695129085"
+source = "git+https://github.com/Matrinsoft/lingmo-settings#32384c528231f12c371ecc6197f12c9c117beb874441b028de2b1065fd3b8c6695129085"
 dependencies = [
  "cosmic-protocols",
  "iced_futures",
@@ -1246,7 +1246,7 @@ dependencies = [
 [[package]]
 name = "cosmic-settings-accessibility-subscription"
 version = "1.0.7"
-source = "git+https://github.com/Matrinsoft/lingmo-settings#3aa3e6694441b028de2b1065fd3b8c6695129085"
+source = "git+https://github.com/Matrinsoft/lingmo-settings#32384c528231f12c371ecc6197f12c9c117beb874441b028de2b1065fd3b8c6695129085"
 dependencies = [
  "cosmic-dbus-a11y",
  "futures",
@@ -1267,7 +1267,7 @@ dependencies = [
 [[package]]
 name = "cosmic-settings-network-manager-subscription"
 version = "1.0.7"
-source = "git+https://github.com/Matrinsoft/lingmo-settings#3aa3e6694441b028de2b1065fd3b8c6695129085"
+source = "git+https://github.com/Matrinsoft/lingmo-settings#32384c528231f12c371ecc6197f12c9c117beb874441b028de2b1065fd3b8c6695129085"
 dependencies = [
  "bitflags 2.13.0",
  "cosmic-dbus-networkmanager",
