@@ -48,22 +48,21 @@ test *args:
 [no-cd]
 vendor:
     #!/usr/bin/env bash
+    set -e
     mkdir -p .cargo
-    cargo vendor --sync Cargo.toml | awk '/^\[/{p=1} p' > .cargo/config.toml
-    grep '^source = "git+" Cargo.lock | sed "s/source = \"//;s/\"$//" | sort -u | while read src; do \
-        echo "[source \"$src\"]"; \
-        echo 'replace-with = "vendored-sources"'; \
-        echo ""; \
+    cargo vendor --sync Cargo.toml | awk "/^\[/{p=1} p" > .cargo/config.toml
+    grep "^source = \"git+\" Cargo.lock | sed "s/source = \\"//;s/\\"$//" | sort -u | while read src; do
+        echo "[source \"$src\"]"
+        echo "replace-with = \"vendored-sources\""
+        echo ""
     done >> .cargo/config.toml
     echo >> .cargo/config.toml
-    echo '[env]' >> .cargo/config.toml
-    if [ -n "${SOURCE_DATE_EPOCH}" ]
-    then
+    echo "[env]" >> .cargo/config.toml
+    if [ -n "${SOURCE_DATE_EPOCH}" ]; then
         source_date="$(date -d "@${SOURCE_DATE_EPOCH}" "+%Y-%m-%d")"
         echo "VERGEN_GIT_COMMIT_DATE = \"${source_date}\"" >> .cargo/config.toml
     fi
-    if [ -n "${SOURCE_GIT_HASH}" ]
-    then
+    if [ -n "${SOURCE_GIT_HASH}" ]; then
         echo "VERGEN_GIT_SHA = \"${SOURCE_GIT_HASH}\"" >> .cargo/config.toml
     fi
     tar pcf vendor.tar .cargo vendor
