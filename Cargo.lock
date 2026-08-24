@@ -1171,7 +1171,6 @@ dependencies = [
  "cosmic-randr-shell",
  "cosmic-settings-a11y-manager-subscription",
  "cosmic-settings-accessibility-subscription",
- "cosmic-settings-network-manager-subscription",
  "crabtime",
  "eyre",
  "futures",
@@ -1261,25 +1260,6 @@ name = "cosmic-settings-daemon"
 version = "0.1.0"
 source = "git+https://github.com/Matrinsoft/dbus-settings-bindings#35e566c133e110554b6bb89ad1323753c7ab4c52"
 dependencies = [
- "zbus",
-]
-
-[[package]]
-name = "cosmic-settings-network-manager-subscription"
-version = "1.0.7"
-source = "git+https://github.com/Matrinsoft/lingmo-settings#09bdcca76925c3845de2a497b7ec927046aafe2c"
-dependencies = [
- "bitflags 2.13.0",
- "cosmic-dbus-networkmanager",
- "futures",
- "iced_futures",
- "itertools",
- "nm-secret-agent-manager",
- "secret-service",
- "secure-string",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
  "zbus",
 ]
 
