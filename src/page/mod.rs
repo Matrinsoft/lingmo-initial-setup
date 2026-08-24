@@ -13,7 +13,6 @@ pub mod location;
 pub mod new_apps;
 pub mod new_shortcuts;
 pub mod user;
-pub mod wifi;
 pub mod workflow;
 
 pub enum AppMode {
@@ -30,8 +29,6 @@ pub fn pages(mode: AppMode) -> IndexMap<TypeId, Box<dyn Page>> {
     pages.insert(TypeId::of::<a11y::Page>(), Box::new(a11y::Page::new()));
 
     if let AppMode::NewInstall { create_user } = mode {
-        pages.insert(TypeId::of::<wifi::Page>(), Box::new(wifi::Page::default()));
-
         #[cfg(not(feature = "nixos"))]
         pages.insert(
             TypeId::of::<language::Page>(),
@@ -101,7 +98,6 @@ pub enum Message {
     SetTheme(cosmic::Theme),
     User(user::Message),
     A11y(a11y::Message),
-    WiFi(wifi::Message),
     /// Handling of internal messages
     Surface(surface::Action),
 }

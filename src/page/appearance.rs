@@ -6,7 +6,6 @@ use cosmic::iced::{Alignment, Length, alignment, never};
 use cosmic::theme::{self, ThemeType};
 use cosmic::widget::{ListColumn, container};
 use cosmic::{Element, Task, widget};
-use cosmic_settings_network_manager_subscription::dbus::settings;
 use heck::ToTitleCase;
 use std::collections::BTreeSet;
 use std::ffi::OsStr;
