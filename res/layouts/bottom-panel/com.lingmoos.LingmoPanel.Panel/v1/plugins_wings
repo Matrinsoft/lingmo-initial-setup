@@ -1,0 +1,19 @@
+Some(([
+    "com.lingmoos.LingmoPanelLauncherButton",
+    "com.lingmoos.LingmoPanelWorkspacesButton",
+    "com.lingmoos.LingmoPanelAppButton",
+    "com.lingmoos.LingmoAppList",
+    "com.lingmoos.LingmoAppletMinimize",
+], [
+    "com.lingmoos.LingmoAppletInputSources",
+    "com.lingmoos.LingmoAppletStatusArea",
+    "com.lingmoos.LingmoAppletA11y",
+    "com.lingmoos.LingmoAppletTiling",
+    "com.lingmoos.LingmoAppletAudio",
+    "com.lingmoos.LingmoAppletBluetooth",
+    "com.lingmoos.LingmoAppletNetwork",
+    "com.lingmoos.LingmoAppletBattery",
+    "com.lingmoos.LingmoAppletNotifications",
+    "com.lingmoos.LingmoAppletTime",
+    "com.lingmoos.LingmoAppletPower",
+]))

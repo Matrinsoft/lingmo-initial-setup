@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 static CITIES: &[u8] = include_bytes!("../../res/cities.bitcode-v0-6");
 
-const CONFIG_NAME: &str = "com.system76.CosmicInitialSetup";
+const CONFIG_NAME: &str = "com.lingmoos.LingmoInitialSetup";
 
 #[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, CosmicConfigEntry)]
 pub struct LocationState {

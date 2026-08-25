@@ -894,7 +894,7 @@ fn connection_settings(page: &mut Page) -> Task<super::Message> {
 
     let secret_agent = cosmic::Task::stream(
         cosmic_settings_network_manager_subscription::nm_secret_agent::secret_agent_stream(
-            "com.system76.CosmicSettings.WiFi.NetworkManager.SecretAgent",
+            "com.lingmoos.LingmoSettings.WiFi.NetworkManager.SecretAgent",
             rx,
         ),
     )

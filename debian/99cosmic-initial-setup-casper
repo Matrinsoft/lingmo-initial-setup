@@ -20,6 +20,6 @@ esac
 
 log_begin_msg "$DESCRIPTION"
 
-rm -f /root/etc/xdg/autostart/com.system76.CosmicInitialSetup.desktop
+rm -f /root/etc/xdg/autostart/com.lingmoos.LingmoInitialSetup.desktop
 
 log_end_msg

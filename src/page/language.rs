@@ -188,7 +188,7 @@ impl super::Page for Page {
                 })
                 .collect();
 
-            let config = cosmic::cosmic_config::Config::new("com.system76.CosmicSettings", 1).ok();
+            let config = cosmic::cosmic_config::Config::new("com.lingmoos.LingmoSettings", 1).ok();
 
             let language = system_locales
                 .get("LC_ALL")
